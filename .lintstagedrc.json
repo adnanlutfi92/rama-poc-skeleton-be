@@ -1,0 +1,7 @@
+{
+  "*.{js, jsx,ts,tsx}": [
+    "eslint --fix --ignore-pattern",
+    "jest --bail --findRelatedTests --passWithNoTests"
+  ],
+  "*.{json,js,ts,jsx,tsx,html}": ["prettier --write --ignore-unknown"]
+}

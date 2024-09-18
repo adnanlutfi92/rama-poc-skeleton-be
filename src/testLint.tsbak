@@ -1,0 +1,3 @@
+const aa: any = 'aaa';
+const arrowFn = () => 'test';
+console.log('hehe');
