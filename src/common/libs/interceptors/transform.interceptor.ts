@@ -2,7 +2,7 @@
 
 import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { BasePaginationResponseDTO, BaseResponseDTO } from '../../libs/base';
+import { BasePaginationResponseDTO, BaseResponseDTO } from '../base';
 import { Observable, map } from 'rxjs';
 
 @Injectable()
