@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
 import { TestingService } from './testing.service';
 import { ApiTags } from '@nestjs/swagger';
-import { SwaggerHelperDecorator } from '../common/libs/swagger';
-import { TransformationInterceptor } from '../common/libs/interceptors/transform.interceptor';
-import { ResponseMessage } from '../common/libs/decorators/response-message.decorator';
+import { SwaggerHelperDecorator } from '../common/swagger';
+import { ResponseMessage } from '../common/decorators/response-message.decorator';
 import { TestingDto } from './dto/testing.dto';
 import { TestingResponseDto } from './dto/testing-response.dto';
+import { TransformationInterceptor } from '../common/interceptors/transform.interceptor';
 
 @ApiTags('Testing')
 @Controller('testing')
