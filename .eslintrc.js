@@ -27,6 +27,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'error',
     '@typescript-eslint/no-unused-vars': ['error', { args: 'none' }],
     'no-console': 'warn',
+    'no-undef': 'error',
     'no-restricted-syntax': [
       'error',
       {
