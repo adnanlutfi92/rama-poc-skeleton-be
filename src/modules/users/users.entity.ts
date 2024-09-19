@@ -1,15 +1,19 @@
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import { IUserTypeAttributes } from './interface/user.interface';
+import { UUIDV4 } from 'sequelize';
 
-export interface IUserTypeAttributes {
-  name: string;
-  email: string;
-  password: string;
-  gender: number;
-  status: boolean;
-}
-
-@Table
+@Table({
+  schema: 'public',
+  tableName: 'user',
+})
 export class User extends Model<User> implements IUserTypeAttributes {
+  @Column({
+    type: DataType.UUID,
+    primaryKey: true,
+    defaultValue: UUIDV4,
+  })
+  id: string;
+
   @Column({
     type: DataType.STRING,
     allowNull: false,
@@ -42,4 +46,17 @@ export class User extends Model<User> implements IUserTypeAttributes {
     defaultValue: true,
   })
   status: boolean;
+
+  @Column({
+    type: DataType.DATE,
+    allowNull: false,
+    defaultValue: new Date(),
+  })
+  created_at: Date;
+
+  @Column({
+    type: DataType.DATE,
+    allowNull: true,
+  })
+  updated_at?: Date;
 }
