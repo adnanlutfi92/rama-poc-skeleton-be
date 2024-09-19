@@ -3,9 +3,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger, ValidationPipe } from '@nestjs/common';
+import * as dotenv from 'dotenv';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  dotenv.config();
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -25,6 +28,9 @@ async function bootstrap() {
   SwaggerModule.setup('api-docs', app, document);
 
   const port = process.env.PORT || 8000;
+
+  // global prefix
+  app.setGlobalPrefix('api/v1');
 
   await app.listen(port);
   logger.log('Application running on port ' + port);
