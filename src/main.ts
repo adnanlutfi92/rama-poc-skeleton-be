@@ -19,6 +19,9 @@ async function bootstrap() {
 
   const logger = new Logger();
 
+  // global prefix
+  app.setGlobalPrefix('api/');
+
   const config = new DocumentBuilder()
     .setTitle('API Example')
     .setDescription('Lorem API description')
@@ -28,9 +31,6 @@ async function bootstrap() {
   SwaggerModule.setup('api-docs', app, document);
 
   const port = process.env.PORT || 8000;
-
-  // global prefix
-  app.setGlobalPrefix('api/v1');
 
   await app.listen(port);
   logger.log('Application running on port ' + port);
