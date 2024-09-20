@@ -11,3 +11,7 @@ export interface IUserTypeAttributes extends IUserTypeAttributesBase {
   id: string;
   password: string;
 }
+
+export interface IUserTypeAttributesBaseV2 extends IUserTypeAttributesBase {
+  dob: string;
+}

@@ -1,5 +1,5 @@
-import { UserResponseDto } from './dto/user-response.dto';
-import { User } from './users.entity';
+import { UserResponseDto } from '../dto/user-response.dto';
+import { User } from '../entity/users.entity';
 
 export class UserService {
   async getUser(): Promise<UserResponseDto[]> {

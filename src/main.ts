@@ -20,7 +20,7 @@ async function bootstrap() {
   const logger = new Logger();
 
   // global prefix
-  app.setGlobalPrefix('api/');
+  // app.setGlobalPrefix('api/');
 
   const config = new DocumentBuilder()
     .setTitle('API Example')

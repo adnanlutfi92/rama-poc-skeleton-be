@@ -1,6 +1,6 @@
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
-import { IUserTypeAttributes } from './interface/user.interface';
 import { UUIDV4 } from 'sequelize';
+import { IUserTypeAttributes } from '../interface/user.interface';
 
 @Table({
   schema: 'public',
