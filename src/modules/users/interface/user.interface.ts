@@ -1,7 +1,7 @@
 export interface IUserTypeAttributesBase {
   name: string;
   email: string;
-  gender: number;
+  gender: string;
   status: boolean;
   created_at: Date;
   updated_at?: Date;

@@ -38,7 +38,7 @@ export class User extends Model<User> implements IUserTypeAttributes {
     values: ['1', '2'],
     allowNull: false,
   })
-  gender: number;
+  gender: string;
 
   @Column({
     type: DataType.BOOLEAN,

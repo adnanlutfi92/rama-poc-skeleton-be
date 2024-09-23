@@ -15,7 +15,7 @@ export class UserResponseDto implements IUserTypeAttributesBase {
   email: string;
 
   @ApiProperty({ example: 1 })
-  gender: number;
+  gender: string;
 
   @ApiProperty({ type: Boolean, example: true })
   status: boolean;

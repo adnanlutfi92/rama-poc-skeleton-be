@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from './users.controller';
 import { UserService } from './users.service';
+import { UserResponseDto } from '../dto/user-response.dto';
 
 describe('userController', () => {
   let usersController: UsersController;
@@ -30,13 +31,13 @@ describe('userController', () => {
   describe('get user', () => {
     it('should return array of user', async () => {
       //arrange
-      const user = {
+      const user: UserResponseDto = {
         id: '01636c87-d0c4-4097-b8dd-2d0ebce65152',
         name: 'Rama Sullivan',
         email: 'ramasullivan27@gmail.com',
         gender: '1',
         status: true,
-        created_at: '2024-09-19T08:03:44.961Z',
+        created_at: new Date(),
         updated_at: null,
       };
       const users = [user];
