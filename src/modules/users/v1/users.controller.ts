@@ -1,15 +1,15 @@
 import { Controller, Get, UseInterceptors } from '@nestjs/common';
-import { UserService } from './users.service';
 import { ApiTags } from '@nestjs/swagger';
 import { SwaggerHelperDecorator } from '../../../common/swagger';
 import { ResponseMessage } from '../../../common/decorators/response-message.decorator';
 import { UserResponseDto } from '../dto/user-response.dto';
 import { TransformationInterceptor } from '../../../common/interceptors/transform.interceptor';
+import { UsersService } from './users.service';
 
 @ApiTags('User')
 @Controller('v1/user')
 export class UsersController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly usersService: UsersService) {}
 
   @Get('')
   @SwaggerHelperDecorator({
@@ -21,7 +21,7 @@ export class UsersController {
   @UseInterceptors(TransformationInterceptor)
   @ResponseMessage('Success get users')
   async getUser(): Promise<UserResponseDto[]> {
-    const user = await this.userService.getUser();
+    const user = await this.usersService.getUser();
 
     return user;
   }
