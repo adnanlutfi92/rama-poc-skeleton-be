@@ -8,7 +8,7 @@ import { TransformationInterceptor } from '../../../common/interceptors/transfor
 
 @ApiTags('User')
 @Controller('v1/user')
-export class UserController {
+export class UsersController {
   constructor(private readonly userService: UserService) {}
 
   @Get('')
@@ -20,7 +20,7 @@ export class UserController {
   // @UseGuards(AuthGuard)
   @UseInterceptors(TransformationInterceptor)
   @ResponseMessage('Success get users')
-  async addUser(): Promise<UserResponseDto[]> {
+  async getUser(): Promise<UserResponseDto[]> {
     const user = await this.userService.getUser();
 
     return user;

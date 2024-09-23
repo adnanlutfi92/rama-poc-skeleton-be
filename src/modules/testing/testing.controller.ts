@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Query, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
 import { TestingService } from './testing.service';
 import { ApiTags } from '@nestjs/swagger';
 import { SwaggerHelperDecorator } from '../../common/swagger';
@@ -32,7 +32,7 @@ export class TestingController {
   // @UseGuards(AuthGuard)
   @UseInterceptors(TransformationInterceptor)
   @ResponseMessage('Success add new users')
-  addUser(@Query() registerDto: TestingDto): TestingResponseDto {
+  addUser(@Body() registerDto: TestingDto): TestingResponseDto {
     const user = this.testingService.getTesting();
 
     return user;
