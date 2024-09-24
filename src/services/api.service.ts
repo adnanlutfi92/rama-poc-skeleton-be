@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { IApiRequest } from './interface/api-request.interface';
+import { IApiRequest } from './interfaces/api-request.interface';
 
 @Injectable()
 export class ApiService {

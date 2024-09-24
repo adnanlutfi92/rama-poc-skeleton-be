@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ApiService } from '../api.service';
-import { IDummyProductResponse } from '../interface/dummy-product.interface';
+import { IDummyProductResponse } from '../interfaces/dummy-product.interface';
 
 @Injectable()
 export class DummyJsonService {

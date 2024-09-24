@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IUserTypeAttributesBase, IUserTypeAttributesBaseV2 } from '../interface/user.interface';
+import { IUserTypeAttributesBase, IUserTypeAttributesBaseV2 } from '../interfaces/user.interface';
 
 export class UserResponseDto implements IUserTypeAttributesBase {
   @ApiProperty({

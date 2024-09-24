@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IDummyProduct } from 'src/modules/handler/interface/dummy-product.interface';
+import { IDummyProduct } from 'src/services/interfaces/dummy-product.interface';
 
 export class GetProductResponseDto {
   @ApiProperty({

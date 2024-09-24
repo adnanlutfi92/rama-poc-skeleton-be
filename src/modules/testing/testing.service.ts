@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DummyJsonService } from '../handler/dummy-json/dummy.service';
+import { DummyJsonService } from '../../services/dummy-json/dummy.service';
 import { GetProductDto } from './dto/get-product-request.dto';
 import { GetProductResponseDto } from './dto/get-product-response.dto';
 import { TestingResponseDto } from './dto/testing-response.dto';
