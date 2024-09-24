@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UsersService } from '../users/v1/users.service';
+import { UsersRepository } from '../users/v1/users.repository';
 // import { UserNotFoundException } from '../users/exception/login.exceptipn';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
+    private usersService: UsersRepository,
     private jwtService: JwtService,
   ) {}
 

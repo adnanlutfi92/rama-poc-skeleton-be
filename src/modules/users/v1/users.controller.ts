@@ -4,12 +4,12 @@ import { SwaggerHelperDecorator } from '../../../common/swagger';
 import { ResponseMessage } from '../../../common/decorators/response-message.decorator';
 import { UserResponseDto } from '../dto/user-response.dto';
 import { TransformationInterceptor } from '../../../common/interceptors/transform.interceptor';
-import { UsersService } from './users.service';
+import { UsersRepository } from './users.repository';
 
 @ApiTags('User')
 @Controller('v1/user')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersRepository) {}
 
   @Get('')
   @SwaggerHelperDecorator({
