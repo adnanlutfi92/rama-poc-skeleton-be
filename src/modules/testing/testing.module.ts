@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TestingController } from './testing.controller';
 import { TestingService } from './testing.service';
-import { ExternalModule } from '../external/external.module';
+import { ExternalModule } from '../handler/external.module';
 
 @Module({
   imports: [ExternalModule],
