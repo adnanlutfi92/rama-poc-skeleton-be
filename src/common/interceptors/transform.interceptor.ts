@@ -4,6 +4,7 @@ import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor } fr
 import { Reflector } from '@nestjs/core';
 import { BasePaginationResponseDTO, BaseResponseDTO } from '../base';
 import { Observable, map } from 'rxjs';
+import { RESPONSE_MESSAGE_TAG } from '../decorators/response-message.decorator';
 
 @Injectable()
 export class TransformationInterceptor<T> implements NestInterceptor<T, BaseResponseDTO<T>> {
@@ -12,10 +13,10 @@ export class TransformationInterceptor<T> implements NestInterceptor<T, BaseResp
     return next.handle().pipe(
       map((data) => ({
         message:
-          this.reflector.get<string>('response_message', context.getHandler()) ||
+          this.reflector.get<string>(RESPONSE_MESSAGE_TAG, context.getHandler()) ||
           data.message ||
           '',
-        statusCode: context.switchToHttp().getResponse().statusCode,
+        statusCode: 200,
         data,
       })),
     );

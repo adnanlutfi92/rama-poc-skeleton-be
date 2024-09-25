@@ -1,14 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TestingController } from './testing.controller';
 import { TestingService } from './testing.service';
-import { ExternalModule } from '../../services/external.module';
+import { BaseModule } from '../../services/base.module';
 
 describe('TestingController', () => {
   let testingController: TestingController;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      imports: [ExternalModule],
+      imports: [BaseModule],
       controllers: [TestingController],
       providers: [TestingService],
     }).compile();

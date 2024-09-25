@@ -2,8 +2,9 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import * as dotenv from 'dotenv';
+import { LOGGER } from './core/constants';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,8 +17,6 @@ async function bootstrap() {
       transform: true,
     }),
   );
-
-  const logger = new Logger();
 
   // global prefix
   // app.setGlobalPrefix('api/');
@@ -33,6 +32,6 @@ async function bootstrap() {
   const port = process.env.PORT || 8000;
 
   await app.listen(port);
-  logger.log('Application running on port ' + port);
+  LOGGER.log('Application running on port ' + port);
 }
 bootstrap();
