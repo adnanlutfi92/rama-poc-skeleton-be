@@ -14,13 +14,18 @@ export class ApiService {
     headers,
     cache,
     multipart = false,
+    encode = false,
   }: IApiRequest): Promise<T> {
-    const finalHeader: HeadersInit = {};
+    let finalHeader: HeadersInit = {};
     let finalUri: string = uri;
 
     if (query) {
       const queryParam: string = new URLSearchParams(query).toString();
       finalUri = finalUri + '?' + queryParam;
+    } else {
+      if (!encode) {
+        finalHeader = { 'Content-Type': 'application/json' };
+      }
     }
 
     if (headers) {
@@ -29,8 +34,8 @@ export class ApiService {
 
     const loggerTemplate: ILoggerApi = {
       url: finalUri,
-      body: body ? body.toString() : null,
-      header: JSON.stringify(finalHeader),
+      body: body ? (encode ? body.toString() : JSON.parse(body.toString())) : null,
+      header: finalHeader,
       request_time: new Date(),
       response_data: null,
       response_message: null,
@@ -54,14 +59,11 @@ export class ApiService {
       const updateRes = resJson as any;
       loggerTemplate.response_message = (updateRes.message || updateRes.error) ?? '';
       loggerTemplate.response_data = updateRes.data ?? null;
-      loggerTemplate.response_code =
-        (Number(updateRes.status_code) || Number(updateRes.statusCode)) ?? 500;
+      loggerTemplate.response_code = (Number(updateRes.status_code) || Number(updateRes.statusCode)) ?? 500;
       loggerTemplate.response_status = updateRes.status ?? 'Error';
       loggerTemplate.response_time = new Date();
       LOGGER.log(loggerTemplate);
-      return {
-        ...resJson,
-      } as T;
+      return resJson as T;
     } catch (error) {
       throw new Error(error);
     }

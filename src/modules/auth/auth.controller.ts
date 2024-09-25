@@ -3,8 +3,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { SwaggerHelperDecorator } from '../../common/swagger';
 import { ResponseMessage } from '../../common/decorators/response-message.decorator';
 import { AuthService } from './auth.service';
-import { LoginRequestPayDto } from './dto/login-request.dto';
-import { LoginResponsePayDto } from './dto/login-response.dto';
+import { LoginRequestPasDto, LoginRequestPayDto } from './dto/login-request.dto';
+import { LoginResponsePasDto, LoginResponsePayDto } from './dto/login-response.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -17,9 +17,20 @@ export class AuthController {
     response: LoginResponsePayDto,
   })
   @ResponseMessage('Success Login Pay')
-  @ResponseMessage('Success get product')
-  async getProduct(@Body() loginRequestDto: LoginRequestPayDto): Promise<LoginResponsePayDto> {
+  async loginPay(@Body() loginRequestDto: LoginRequestPayDto): Promise<LoginResponsePayDto> {
     const result = this.authService.loginPay(loginRequestDto);
+
+    return result;
+  }
+
+  @Post('login-pas')
+  @SwaggerHelperDecorator({
+    name: 'Login Pas Sistem',
+    response: LoginResponsePasDto,
+  })
+  @ResponseMessage('Success Login Pas')
+  async loginPas(@Body() loginRequestDto: LoginRequestPasDto): Promise<LoginResponsePasDto> {
+    const result = this.authService.loginPas(loginRequestDto);
 
     return result;
   }

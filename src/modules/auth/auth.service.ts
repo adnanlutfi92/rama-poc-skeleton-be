@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { LoginRequestPayDto } from './dto/login-request.dto';
+import { LoginRequestPasDto, LoginRequestPayDto } from './dto/login-request.dto';
 import { LoginService } from 'src/services/login/login.service';
-import { ILoginResponsePay } from 'src/services/interfaces/login.interface';
+import { ILoginResponsePas, ILoginResponsePay } from 'src/services/interfaces/login.interface';
 import { PasswordMismatchException } from './exception/login.exception';
 // import { UserNotFoundException } from '../users/exception/login.exceptipn';
 
@@ -29,6 +29,15 @@ export class AuthService {
   async loginPay(body: LoginRequestPayDto): Promise<ILoginResponsePay> {
     const login = await this.loginService.loginPay(body);
     if (login.access_token && login.access_token !== null) {
+      return login;
+    } else {
+      throw new PasswordMismatchException();
+    }
+  }
+
+  async loginPas(body: LoginRequestPasDto): Promise<ILoginResponsePas> {
+    const login = await this.loginService.loginPas(body);
+    if (login.status) {
       return login;
     } else {
       throw new PasswordMismatchException();

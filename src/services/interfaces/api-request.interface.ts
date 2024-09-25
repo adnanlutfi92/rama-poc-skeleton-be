@@ -8,4 +8,5 @@ export interface IApiRequest {
   headers?: HeadersInit;
   cache?: RequestCache;
   multipart?: boolean;
+  encode?: boolean;
 }

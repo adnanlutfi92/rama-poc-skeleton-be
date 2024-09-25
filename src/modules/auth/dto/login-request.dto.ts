@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, MinLength } from 'class-validator';
-import { ILoginPay } from 'src/services/interfaces/login.interface';
+import { ILoginRequestPas, ILoginRequestPay } from 'src/services/interfaces/login.interface';
 
-export class LoginRequestPayDto implements ILoginPay {
+export class LoginRequestPayDto implements ILoginRequestPay {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
@@ -23,4 +23,22 @@ export class LoginRequestPayDto implements ILoginPay {
   @IsString()
   @IsNotEmpty()
   grant_type: string;
+}
+
+export class LoginRequestPasDto implements ILoginRequestPas {
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  username: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(8)
+  password: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  organization_id: string;
 }
