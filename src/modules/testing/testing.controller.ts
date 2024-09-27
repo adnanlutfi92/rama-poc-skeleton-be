@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, Query, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseFilters,
+  UseInterceptors,
+} from '@nestjs/common';
 import { TestingService } from './testing.service';
 import { ApiTags } from '@nestjs/swagger';
 import { SwaggerHelperDecorator } from '../../common/swagger';
@@ -8,6 +17,8 @@ import { TestingResponseDto } from './dto/testing-response.dto';
 import { TransformationInterceptor } from '../../common/interceptors/transform.interceptor';
 import { GetProductResponseDto } from './dto/get-product-response.dto';
 import { GetProductDto } from './dto/get-product-request.dto';
+import { BaseExceptionFilter } from '@nestjs/core';
+import { NotFoundExceptionFilter } from 'src/common/base/exceptions';
 
 @ApiTags('Testing')
 @Controller('testing')
@@ -48,10 +59,19 @@ export class TestingController {
   })
   // @UseGuards(AuthGuard)
   @UseInterceptors(TransformationInterceptor)
+  @UseFilters(BaseExceptionFilter)
   @ResponseMessage('Success get product')
   async getProduct(@Query() getProductDto: GetProductDto): Promise<GetProductResponseDto> {
     const result = this.testingService.getDummyProduct(getProductDto);
 
     return result;
+  }
+
+  @Get(':id')
+  getHelloWithId(@Param('id') id: number): string {
+    const result = `Hello World with ${id}`;
+
+    if (id === 1) return result;
+    else throw new NotFoundExceptionFilter(`The ${id} not found`);
   }
 }
