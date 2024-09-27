@@ -23,7 +23,7 @@ export class SwaggerDecoratorOptions<R, B> {
   name: string;
   isPagination? = false;
   dataIsArray? = false;
-  isAuth? = false;
+  isPublic? = false;
   isMultiPart? = false;
   query?: ApiQueryOptions[] | ApiQueryOptions;
   response?: Type<R>;
@@ -35,7 +35,7 @@ export class SwaggerDecoratorOptions<R, B> {
 export function SwaggerHelperDecorator<R, B>(options: SwaggerDecoratorOptions<R, B>) {
   const decorators: (ClassDecorator | PropertyDecorator | MethodDecorator)[] = [];
 
-  if (options.isAuth) {
+  if (!options.isPublic) {
     decorators.push(ApiBearerAuth(BEARER_TOKEN_NAME));
   }
 
@@ -59,10 +59,7 @@ export function SwaggerHelperDecorator<R, B>(options: SwaggerDecoratorOptions<R,
 
   if (options.response) {
     decorators.push(
-      ApiExtraModels(
-        options.isPagination ? BasePaginationResponseDTO : BaseResponseDTO,
-        options.response,
-      ),
+      ApiExtraModels(options.isPagination ? BasePaginationResponseDTO : BaseResponseDTO, options.response),
     );
   }
 

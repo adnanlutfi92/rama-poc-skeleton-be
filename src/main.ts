@@ -5,6 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import { LOGGER } from './core/constants';
+import { BEARER_TOKEN_NAME } from './common/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,13 +22,21 @@ async function bootstrap() {
   // global prefix
   // app.setGlobalPrefix('api/');
 
-  const config = new DocumentBuilder()
-    .setTitle('API Example')
-    .setDescription('Lorem API description')
-    .setVersion('1.0')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-docs', app, document);
+  const isEnable = process.env.ENABLE_SWAGGER || false;
+  if (isEnable) {
+    const config = new DocumentBuilder()
+      .setTitle('API Example')
+      .setDescription('Lorem API description')
+      .addBearerAuth(undefined, BEARER_TOKEN_NAME)
+      .setVersion('1.0')
+      .build();
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api-docs', app, document, {
+      swaggerOptions: {
+        persistAuthorization: true,
+      },
+    });
+  }
 
   const port = process.env.PORT || 8000;
 

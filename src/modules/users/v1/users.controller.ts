@@ -13,10 +13,8 @@ export class UsersController {
   @Get('')
   @SwaggerHelperDecorator({
     name: 'Get User',
-    // isAuth: true,
     response: UserResponseDto,
   })
-  // @UseGuards(AuthGuard)
   @ResponseMessage('Success get users')
   async getUser(): Promise<UserResponseDto[]> {
     const user = await this.usersService.getUser();

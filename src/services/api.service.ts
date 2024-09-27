@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { IApiRequest } from './interfaces/api-request.interface';
 import { ILoggerApi } from './interfaces/logger.interface';
 import { LOGGER } from 'src/core/constants';
+import { FailedToFetchException } from 'src/common/exceptions/base.exception';
 
 @Injectable()
 export class ApiService {
@@ -63,9 +64,9 @@ export class ApiService {
       loggerTemplate.response_status = updateRes.status ?? 'Error';
       loggerTemplate.response_time = new Date();
       LOGGER.log(loggerTemplate);
-      return resJson as T;
+      return resJson;
     } catch (error) {
-      throw new Error(error);
+      throw new FailedToFetchException();
     }
   }
 }
