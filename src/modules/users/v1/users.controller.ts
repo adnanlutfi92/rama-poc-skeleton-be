@@ -1,9 +1,8 @@
-import { Controller, Get, UseInterceptors } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { SwaggerHelperDecorator } from '../../../common/swagger';
 import { ResponseMessage } from '../../../common/decorators/response-message.decorator';
 import { UserResponseDto } from '../dto/user-response.dto';
-import { TransformationInterceptor } from '../../../common/interceptors/transform.interceptor';
 import { UsersRepository } from './users.repository';
 
 @ApiTags('User')
@@ -14,11 +13,8 @@ export class UsersController {
   @Get('')
   @SwaggerHelperDecorator({
     name: 'Get User',
-    // isAuth: true,
     response: UserResponseDto,
   })
-  // @UseGuards(AuthGuard)
-  @UseInterceptors(TransformationInterceptor)
   @ResponseMessage('Success get users')
   async getUser(): Promise<UserResponseDto[]> {
     const user = await this.usersService.getUser();

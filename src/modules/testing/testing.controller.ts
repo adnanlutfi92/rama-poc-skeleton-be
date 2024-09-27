@@ -1,33 +1,26 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Query,
-  UseFilters,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UseFilters } from '@nestjs/common';
 import { TestingService } from './testing.service';
 import { ApiTags } from '@nestjs/swagger';
 import { SwaggerHelperDecorator } from '../../common/swagger';
 import { ResponseMessage } from '../../common/decorators/response-message.decorator';
 import { TestingDto } from './dto/testing-request.dto';
 import { TestingResponseDto } from './dto/testing-response.dto';
-import { TransformationInterceptor } from '../../common/interceptors/transform.interceptor';
 import { GetProductResponseDto } from './dto/get-product-response.dto';
 import { GetProductDto } from './dto/get-product-request.dto';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { NotFoundExceptionFilter } from 'src/common/base/exceptions';
+import { Public } from 'src/common/decorators/public-endpoint.decorator';
 
 @ApiTags('Testing')
 @Controller('testing')
 export class TestingController {
   constructor(private readonly testingService: TestingService) {}
 
+  @Public()
   @Get('')
   @SwaggerHelperDecorator({
     name: 'Hellow world',
+    isPublic: true,
   })
   @ResponseMessage('Success')
   getHello(): string {
@@ -36,14 +29,11 @@ export class TestingController {
     return user;
   }
 
-  @Post('test')
+  @Post('add-user-dummy')
   @SwaggerHelperDecorator({
     name: 'Add new users',
-    // isAuth: true,
     response: TestingResponseDto,
   })
-  // @UseGuards(AuthGuard)
-  @UseInterceptors(TransformationInterceptor)
   @ResponseMessage('Success add new users')
   addUser(@Body() registerDto: TestingDto): TestingResponseDto {
     const user = this.testingService.getTesting();
@@ -54,11 +44,9 @@ export class TestingController {
   @Get('product')
   @SwaggerHelperDecorator({
     name: 'get dummyjson product',
-    // isAuth: true,
     response: GetProductResponseDto,
   })
   // @UseGuards(AuthGuard)
-  @UseInterceptors(TransformationInterceptor)
   @UseFilters(BaseExceptionFilter)
   @ResponseMessage('Success get product')
   async getProduct(@Query() getProductDto: GetProductDto): Promise<GetProductResponseDto> {

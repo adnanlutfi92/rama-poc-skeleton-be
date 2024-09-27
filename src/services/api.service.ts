@@ -1,5 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { IApiRequest } from './interfaces/api-request.interface';
+import { ILoggerApi } from './interfaces/logger.interface';
+import { LOGGER } from 'src/core/constants';
+import { FailedToFetchException } from 'src/common/exceptions/base.exception';
 
 @Injectable()
 export class ApiService {
@@ -12,24 +15,35 @@ export class ApiService {
     headers,
     cache,
     multipart = false,
+    encode = false,
   }: IApiRequest): Promise<T> {
-    const finalHeader: HeadersInit = {};
+    let finalHeader: HeadersInit = {};
     let finalUri: string = uri;
 
     if (query) {
       const queryParam: string = new URLSearchParams(query).toString();
       finalUri = finalUri + '?' + queryParam;
     } else {
-      if (!multipart) {
-        Object.assign(finalHeader, {
-          'Content-Type': 'application/json',
-        });
+      if (!encode) {
+        finalHeader = { 'Content-Type': 'application/json' };
       }
     }
 
     if (headers) {
       Object.assign(finalHeader, headers);
     }
+
+    const loggerTemplate: ILoggerApi = {
+      url: finalUri,
+      body: body ? (encode ? body.toString() : JSON.parse(body.toString())) : null,
+      header: finalHeader,
+      request_time: new Date(),
+      response_data: null,
+      response_message: null,
+      response_code: 200,
+      response_status: 'OK',
+      response_time: new Date(),
+    };
 
     try {
       const response = await fetch(finalUri, {
@@ -41,18 +55,18 @@ export class ApiService {
         cache,
         body,
       });
-
-      const logger = new Logger();
-
-      logger.log(response);
-
       const resJson = (await response.json()) as T;
-      return {
-        ...resJson,
-        traceId: response.headers.get('x-request-id'),
-      } as T;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const updateRes = resJson as any;
+      loggerTemplate.response_message = (updateRes.message || updateRes.error) ?? '';
+      loggerTemplate.response_data = updateRes.data ?? null;
+      loggerTemplate.response_code = (Number(updateRes.status_code) || Number(updateRes.statusCode)) ?? 500;
+      loggerTemplate.response_status = updateRes.status ?? 'Error';
+      loggerTemplate.response_time = new Date();
+      LOGGER.log(loggerTemplate);
+      return resJson;
     } catch (error) {
-      console.error(error);
+      throw new FailedToFetchException();
     }
   }
 }
